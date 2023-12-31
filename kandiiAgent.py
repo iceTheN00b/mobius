@@ -42,6 +42,12 @@ class kandiiAgent:
 
 class TASKS(Enum):
     SLEEP = "sleep"
+    PLAN = "plan"
+    SEARCH = "search"
+    WRITE = "write"
+    READ = "read"
+    REVIEW = "review"
+    UPLOAD = "UPLOAD"
 
 class POSITIONS(Enum):
     BED = "bed"

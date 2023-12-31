@@ -6,9 +6,10 @@ from langchain.agents import Tool
 from kandiiMethods import *
 
 class kandiiMind: #the mind of the agent is nothing more than a collection of different chains, aimed at simulating cognition
-    def __init__(self, soul):
+    def __init__(self, soul, agent):
         self.soul = soul
         self.memory = self.define_memory()
+        self.agent = agent
         self.action_space = open("constant/space.txt", "r").read()
 
         #self.chains = self.define_chains()
@@ -18,7 +19,7 @@ class kandiiMind: #the mind of the agent is nothing more than a collection of di
 
     def define_memory(self):
         loader = DirectoryLoader("memory/kandiiMemory", glob="*.txt", loader_cls=TextLoader)
-        docs = loader.load();
+        docs = loader.load()
         splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=50)
         chunks = splitter.split_documents(docs)
         embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2",
@@ -27,7 +28,7 @@ class kandiiMind: #the mind of the agent is nothing more than a collection of di
 
 
     def define_chains(self):
-        k = kandiiChains(self.soul, self.memory)
+        k = kandiiChains(self.soul, self.memory, self.agent)
 
         chains = [
 
@@ -57,9 +58,8 @@ class kandiiMind: #the mind of the agent is nothing more than a collection of di
         return tools;
 
     def define_test_chains(self):
-        t = testTools()
+        t = testTools(self.agent)
         tools = [
-
             Tool(
                 name="thesis_crafter",
                 func=t.thesis_chain,
@@ -107,7 +107,6 @@ class kandiiMind: #the mind of the agent is nothing more than a collection of di
                 func = t.biblographer_chain,
                 description="useful for when you need to create a biblography. Input should be details of all the sources you used in the paper."
             )
-
         ]
 
         return tools

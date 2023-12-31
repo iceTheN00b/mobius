@@ -12,7 +12,7 @@ class kandiiEngine:
     def __init__(self, go):
         self.soul = self.setupSoul()
         self.mind = self.setupMind()
-        self.body = self.setupAgent()
+        self.agent = self.setupAgent()
         self.setupCache()
         self.TO_DO_LIST = "data/to_do_list.txt"
         self.goal = "Autonomous LLM Based Agents"
@@ -28,7 +28,7 @@ class kandiiEngine:
         return kandiiAgent()
 
     def setupMind(self):
-        return kandiiMind(self.soul)
+        return kandiiMind(self.soul, self.agent)
 
     def run(self):
 
