@@ -45,6 +45,7 @@ class TASKS(Enum):
     PLAN = "plan"
     SEARCH = "search"
     WRITE = "write"
+    THINK = "think"
     READ = "read"
     REVIEW = "review"
     UPLOAD = "UPLOAD"
