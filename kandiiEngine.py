@@ -39,8 +39,7 @@ class kandiiEngine:
             verbose=True
         )
         if self.go:
-            #esult = kandii.invoke({"input":f"design a software development plan for this goal: {self.goal}"}) #uses_the_generate_idea_chain hopefully.
-            #result = kandii.invoke({"input":f"construct a plan for creating an academic paper on the following topic: {self.goal}"})
+
             prompt = f"""
             create the academic paper on the topic {self.goal} using these steps:
 
@@ -54,7 +53,7 @@ class kandiiEngine:
             """
             kandii.invoke({"input":prompt})
         else:
-            self.body.set_task(self.body.tasks.SLEEP)
+            self.agent.set_task(self.agent.tasks.SLEEP)
             print("ZZZZ")
 
 

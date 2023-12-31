@@ -5,9 +5,6 @@ from langchain.prompts import PromptTemplate
 from langchain.tools import GoogleSearchResults
 from langchain.utilities import GoogleScholarAPIWrapper
 from kandiiAgent import TASKS
-
-
-#class responsible for generating chains to be used by kandii in its plans
 from langchain_community.tools.google_scholar import GoogleScholarQueryRun
 
 
@@ -16,73 +13,11 @@ class kandiiChains:
         self.soul = soul
         self.memory = memory
         self.agent = agent
-        self.best_idea_from_options_chain = self.define_best_idea_from_options_chain()
-        self.design_software_plan_chain = self.define_generate_software_execution_plan_chain()
-        #self.realize_self_chain = self.define_realize_self_chain()
 
     def set_task(self, new_task):
         self.agent.set_task(new_task)
 
-    def define_best_idea_from_options_chain(self):
-
-        generator_template = PromptTemplate.from_template(template ="""
-                {new_information}
-                What are some interesting things you will like to do with this information relating to any 80s game or movie?
-                """)
-
-        evaluator_template = PromptTemplate.from_template(template="""
-                   Of each of the possibilities, display the following rankings:
-                   1. A value of 1 to 10, 1 being the idea is hardly remisicent of the 80s, and 10 being the idea if very reminiscent of the 80s
-                   {new_possibilities}
-                   """)
-
-        selector_template = PromptTemplate.from_template(template="""
-                   Of each of these ideas and their rankings, select one you would love to execute. If the highest ranking is smaller than 3, then do not select an idea.
-                   {evaluated_possibilities}
-                   """)
-
-        generator_chain = LLMChain(llm = self.soul, prompt = generator_template)
-
-        evaluator_chain = LLMChain(llm = self.soul, prompt = evaluator_template)
-
-        selector_chain = LLMChain(llm=self.soul, prompt=selector_template)
-
-        chain = SimpleSequentialChain(chains = [generator_chain, evaluator_chain, selector_chain], verbose = True)
-
-        return chain.run
-
-
-    def define_generate_software_execution_plan_chain(self):
-        self.set_task(TASKS.PLAN)
-        return open("constant/product_plan.txt", "r").read()
-        #following this plan, i can then define the tools that will be used by the agent
-
-    def define_generate_academic_paper_plan_chain(self):
-        self.set_task(TASKS.PLAN)
-        plan_template = PromptTemplate.from_template(template="""
-            construct a plan for creating an academic paper on {subject} following these g
-        """)
-
-        plan_chain = LLMChain(llm=self.soul, prompt=plan_template)
-
-        return plan_chain.run
-
-    def define_evaluate_code_chain(self):#to optimize less than optimal code. could use RAG to bring to memory optimization tricks
-        pass
-
-class kandiiProjections:#smaller level agents. exist only cause they can make use of tools.
-    def __init__(self, soul, memory):
-        self.soul = soul
-        self.memory = memory
-
-class kandiiTools:
-    def __init__(self, soul, memory):
-        self.soul = soul
-        self.memory = memory
-
-
 class testTools:
-
     def __init__(self, agent):
         self.agent = agent
         self.gather_sources_chain = self.define_gather_sources_chain()

@@ -11,11 +11,7 @@ class kandiiMind: #the mind of the agent is nothing more than a collection of di
         self.memory = self.define_memory()
         self.agent = agent
         self.action_space = open("constant/space.txt", "r").read()
-
-        #self.chains = self.define_chains()
-        #self.tools = self.define_tools()
         self.test_chains = self.define_test_chains()
-        #self.agents = self.define_agents()
 
     def define_memory(self):
         loader = DirectoryLoader("memory/kandiiMemory", glob="*.txt", loader_cls=TextLoader)
@@ -25,37 +21,6 @@ class kandiiMind: #the mind of the agent is nothing more than a collection of di
         embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2",
                                            model_kwargs={"device": "cpu"})
         return Chroma.from_documents(chunks, embeddings)
-
-
-    def define_chains(self):
-        k = kandiiChains(self.soul, self.memory, self.agent)
-
-        chains = [
-
-            Tool(
-                name = "product_researcher",
-                func = "",
-                description = "useful for whenever you need to research a product"
-            ),
-
-        ]
-
-        return chains
-
-    def define_tools(self):
-        k = kandiiTools()
-
-        tools = [
-
-            Tool(
-                name = "academic_paper_researcher",
-                func = "",
-                description="This is used to look up research topics that will be useful for the definition of the agent"
-            )
-
-        ]
-
-        return tools;
 
     def define_test_chains(self):
         t = testTools(self.agent)

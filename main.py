@@ -7,7 +7,7 @@ from kandiiEngine import kandiiEngine
 E = flask.Flask("mobius")
 
 print("sculpting kandii..")
-kandii = kandiiEngine(True)
+kandii = kandiiEngine()
 
 #Thread(target=kandii.run).start()
 
