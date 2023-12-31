@@ -1,0 +1,1 @@
+for now, this is just a demo. i am to properly build this up once i have finialzed some architectural decisions and basically just shipped an okay enough version
