@@ -129,6 +129,7 @@ class kandiiMind: #the mind of the agent is nothing more than a collection of di
 
 
 
+
     #rn its an agent equipped with chains. what about an agent equipped with agents equipped with chains. any benefits?
 
     '''
