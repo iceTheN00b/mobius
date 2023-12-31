@@ -8,7 +8,7 @@ class kandiiAgent:
         self.task = "idle"
 
         self.tasks = TASKS
-        self.DATA = "data/kandii.json"
+        self.DATA = "renderData/kandii.json"
         self.last_save = ""
 
     def save(self):

@@ -10,11 +10,11 @@ class kandiiMind: #the mind of the agent is nothing more than a collection of di
         self.soul = soul
         self.memory = self.define_memory()
         self.agent = agent
-        self.action_space = open("constant/space.txt", "r").read()
+        self.action_space = open("data/constant/space.txt", "r").read()
         self.test_chains = self.define_test_chains()
 
     def define_memory(self):
-        loader = DirectoryLoader("memory/kandiiMemory", glob="*.txt", loader_cls=TextLoader)
+        loader = DirectoryLoader("data/memory/kandiiMemory", glob="*.txt", loader_cls=TextLoader)
         docs = loader.load()
         splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=50)
         chunks = splitter.split_documents(docs)

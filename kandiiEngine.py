@@ -14,7 +14,7 @@ class kandiiEngine:
         self.mind = self.setupMind()
         self.agent = self.setupAgent()
         self.setupCache()
-        self.TO_DO_LIST = "data/to_do_list.txt"
+        self.TO_DO_LIST = "renderData/to_do_list.txt"
         self.goal = "Autonomous LLM Based Agents"
         self.go = go
 
@@ -22,7 +22,7 @@ class kandiiEngine:
         return ChatOpenAI(temperature = 0, model = "gpt-3.5-turbo-0613", openai_api_key = os.environ["egg"])
 
     def setupCache(self):
-        set_llm_cache(SQLiteCache(database_path="cache/kandiCache.db"))
+        set_llm_cache(SQLiteCache(database_path="data/cache/kandiCache.db"))
 
     def setupAgent(self):
         return kandiiAgent()
