@@ -1,21 +1,10 @@
 import os
-
+from enum import Enum
 from langchain.chains import SimpleSequentialChain, LLMChain, RetrievalQA, ConversationalRetrievalChain
 from langchain.prompts import PromptTemplate
 from langchain.tools import GoogleSearchResults
 from langchain.utilities import GoogleScholarAPIWrapper
-from kandiiAgent import TASKS
 from langchain_community.tools.google_scholar import GoogleScholarQueryRun
-
-
-class kandiiChains:
-    def __init__(self, soul, memory, agent):
-        self.soul = soul
-        self.memory = memory
-        self.agent = agent
-
-    def set_task(self, new_task):
-        self.agent.set_task(new_task)
 
 class testTools:
     def __init__(self, agent):
@@ -61,7 +50,7 @@ class testTools:
     def define_writer_chain(self):
         self.set_task(TASKS.WRITE)
         def writer_chain(input = ""):
-            return open("paper.txt","r").read()
+            return open("../paper.txt", "r").read()
         return writer_chain
 
     def define_reviewer_chain(self):
@@ -79,9 +68,20 @@ class testTools:
     def define_saver_tool(self):
         self.set_task(TASKS.UPLOAD)
         def saver_tool(input = ""):
-            open("paper.txt","w").write(input)
+            open("../paper.txt", "w").write(input)
             return "Successfully saved File!"
         return saver_tool
+
+
+class TASKS(Enum):
+    SLEEP = "sleep"
+    PLAN = "plan"
+    SEARCH = "search"
+    WRITE = "write"
+    THINK = "think"
+    READ = "read"
+    REVIEW = "review"
+    UPLOAD = "UPLOAD"
 
 #for future purposes, it will be useful for having higher level chains. like having one single chain for generating plans, rather than 2 different ones for different types of plans
 #the question then is, is an attempt to control the output of agents at a low level worth it? Perhaps we should just skip it then? Well, that will be considered in a later version

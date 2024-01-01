@@ -1,13 +1,10 @@
 import json
-from enum import Enum
 
 class kandiiAgent:
     def __init__(self):
 
         self.location = "playground"
         self.task = "idle"
-
-        self.tasks = TASKS
         self.DATA = "renderData/kandii.json"
         self.last_save = ""
 
@@ -38,17 +35,3 @@ class kandiiAgent:
     def run(self):
         while True:
             self.save()
-
-
-class TASKS(Enum):
-    SLEEP = "sleep"
-    PLAN = "plan"
-    SEARCH = "search"
-    WRITE = "write"
-    THINK = "think"
-    READ = "read"
-    REVIEW = "review"
-    UPLOAD = "UPLOAD"
-
-class POSITIONS(Enum):
-    BED = "bed"

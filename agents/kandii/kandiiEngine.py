@@ -3,23 +3,23 @@ from langchain.agents import initialize_agent, AgentType
 from langchain.chat_models import ChatOpenAI
 from langchain.globals import set_llm_cache
 from langchain.cache import SQLiteCache
-
-from kandiiAgent import kandiiAgent
-from kandiiMind import kandiiMind
+from toolkit.testToolkit import TASKS
+from agents.kandii.kandiiAgent import kandiiAgent
+from agents.kandii.kandiiMind import kandiiMind
 
 class kandiiEngine:
 
     def __init__(self, go):
         self.soul = self.setupSoul()
-        self.mind = self.setupMind()
         self.agent = self.setupAgent()
+        self.mind = self.setupMind()
         self.setupCache()
-        self.TO_DO_LIST = "renderData/to_do_list.txt"
+        self.RENDER_DATA = "data/renderData/kandii.json"
         self.goal = "Autonomous LLM Based Agents"
         self.go = go
 
     def setupSoul(self):
-        return ChatOpenAI(temperature = 0, model = "gpt-3.5-turbo-0613", openai_api_key = os.environ["egg"])
+        return ChatOpenAI(temperature = 0, model = "gpt-3.5-turbo-0613")
 
     def setupCache(self):
         set_llm_cache(SQLiteCache(database_path="data/cache/kandiCache.db"))
@@ -53,7 +53,7 @@ class kandiiEngine:
             """
             kandii.invoke({"input":prompt})
         else:
-            self.agent.set_task(self.agent.tasks.SLEEP)
+            self.agent.set_task(TASKS.SLEEP)
             print("ZZZZ")
 
 
