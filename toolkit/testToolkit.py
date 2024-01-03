@@ -7,8 +7,8 @@ from langchain.utilities import GoogleScholarAPIWrapper
 from langchain_community.tools.google_scholar import GoogleScholarQueryRun
 
 class testTools:
-    def __init__(self, agent):
-        self.agent = agent
+    def __init__(self, render):
+        self.render = render
         self.gather_sources_chain = self.define_gather_sources_chain()
         self.summarize_chain = self.define_summarize_chain()
         self.thesis_chain = self.define_thesis_chain()
@@ -19,10 +19,10 @@ class testTools:
         self.saver_tool = self.define_saver_tool()
 
     def set_task(self, new_task):
-        self.agent.set_task(new_task)
+        self.render.set_task(new_task)
 
     def define_gather_sources_chain(self):
-        self.set_task(TASKS.SEARCH)
+        self.render.set_task(TASKS.SEARCH)
         def resource_chain(input=""):
             tool = GoogleScholarQueryRun(api_wrapper=GoogleScholarAPIWrapper(serp_api_key=os.environ["sardine"]))
             harvest = tool.run(input)
@@ -30,43 +30,43 @@ class testTools:
         return resource_chain
 
     def define_summarize_chain(self):
-        self.set_task(TASKS.READ)
+        self.render.set_task(TASKS.READ)
         def summarize_chain(input=""):
             return f"this is a summarization of the topic {input}"
         return summarize_chain
 
     def define_thesis_chain(self):
-        self.set_task(TASKS.THINK)
+        self.render.set_task(TASKS.THINK)
         def thesis_chain(input=""):
             return "Exploring the Frontier of Artificial General Intelligence and Beyond: Leveraging Long-Short Term Memory (LLM) Based Autonomous Agents for Advancements in Cognitive Systems and Autonomous Intelligence"
         return thesis_chain
 
     def define_outliner_chain(self):
-        self.set_task(TASKS.WRITE)
+        self.render.set_task(TASKS.WRITE)
         def outline_chain(input = ""):
             return "the outline is as follows: Introduction, Literature Review"
         return outline_chain
 
     def define_writer_chain(self):
-        self.set_task(TASKS.WRITE)
+        self.render.set_task(TASKS.WRITE)
         def writer_chain(input = ""):
             return open("../paper.txt", "r").read()
         return writer_chain
 
     def define_reviewer_chain(self):
-        self.set_task(TASKS.REVIEW)
+        self.render.set_task(TASKS.REVIEW)
         def review_chain(input = ""):
             return "the research paper est buono!"
         return review_chain
 
     def define_biblographer_chain(self):
-        self.set_task(TASKS.WRITE)
+        self.render.set_task(TASKS.WRITE)
         def biblographer_chain(input = ""):
             return "the list of the neccessary sources are : a, b"
         return biblographer_chain
 
     def define_saver_tool(self):
-        self.set_task(TASKS.UPLOAD)
+        self.render.set_task(TASKS.UPLOAD)
         def saver_tool(input = ""):
             open("../paper.txt", "w").write(input)
             return "Successfully saved File!"
@@ -82,6 +82,9 @@ class TASKS(Enum):
     READ = "read"
     REVIEW = "review"
     UPLOAD = "UPLOAD"
+    
+    
+    
 
 #for future purposes, it will be useful for having higher level chains. like having one single chain for generating plans, rather than 2 different ones for different types of plans
 #the question then is, is an attempt to control the output of agents at a low level worth it? Perhaps we should just skip it then? Well, that will be considered in a later version
