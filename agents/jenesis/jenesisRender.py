@@ -1,11 +1,11 @@
 import json
 
-class kandiiAgent:
+class jenesisRender:
     def __init__(self):
 
         self.location = "playground"
         self.task = "idle"
-        self.DATA = "renderData/kandii.json"
+        self.DATA = "renderData/jenesis.json"
         self.last_save = ""
 
     def save(self):
@@ -26,8 +26,6 @@ class kandiiAgent:
         self.location = dat["location"]
         self.position = dat["position"]
         self.task = dat["task"]
-
-        #print("initiated kandii")
 
     def set_task(self, task):
         self.task = task

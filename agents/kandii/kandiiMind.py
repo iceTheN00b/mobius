@@ -6,10 +6,10 @@ from langchain.agents import Tool
 from toolkit.testToolkit import *
 
 class kandiiMind: #the mind of the agent is nothing more than a collection of different chains, aimed at simulating cognition
-    def __init__(self, soul, agent):
+    def __init__(self, soul, render):
         self.soul = soul
         self.memory = self.define_memory()
-        self.agent = agent
+        self.render = render
         self.test_chains = self.define_test_chains()
 
     def define_memory(self):
@@ -22,7 +22,7 @@ class kandiiMind: #the mind of the agent is nothing more than a collection of di
         return Chroma.from_documents(chunks, embeddings)
 
     def define_test_chains(self):
-        t = testTools(self.agent)
+        t = testTools(self.render)
         tools = [
             Tool(
                 name="thesis_crafter",

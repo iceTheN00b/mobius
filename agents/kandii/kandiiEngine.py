@@ -4,15 +4,16 @@ from langchain.chat_models import ChatOpenAI
 from langchain.globals import set_llm_cache
 from langchain.cache import SQLiteCache
 from toolkit.testToolkit import TASKS
-from agents.kandii.kandiiAgent import kandiiAgent
+from agents.kandii.kandiiRender import kandiiRender
 from agents.kandii.kandiiMind import kandiiMind
 
 class kandiiEngine:
 
     def __init__(self, go):
         self.soul = self.setupSoul()
-        self.agent = self.setupAgent()
+        self.render = self.setupRender()
         self.mind = self.setupMind()
+        self.agent = self.setupAgent()
         self.setupCache()
         self.RENDER_DATA = "data/renderData/kandii.json"
         self.goal = "Autonomous LLM Based Agents"
@@ -24,20 +25,22 @@ class kandiiEngine:
     def setupCache(self):
         set_llm_cache(SQLiteCache(database_path="data/cache/kandiCache.db"))
 
-    def setupAgent(self):
-        return kandiiAgent()
+    def setupRender(self):
+        return kandiiRender()
 
     def setupMind(self):
-        return kandiiMind(self.soul, self.agent)
+        return kandiiMind(self.soul, self.render)
 
-    def run(self):
-
-        kandii = initialize_agent(
+    def setupAgent(self):
+        return initialize_agent(
             tools=self.mind.test_chains,
             llm = self.soul,
             agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION,
             verbose=True
         )
+
+    def run(self):
+
         if self.go:
 
             prompt = f"""
@@ -51,9 +54,9 @@ class kandiiEngine:
             5. Review this paper, ensuring the main points alighn with the thesis.
             6. Compile all the sources used in the paper to form a biblography.
             """
-            kandii.invoke({"input":prompt})
+            self.agent.invoke({"input":prompt})
         else:
-            self.agent.set_task(TASKS.SLEEP)
+            self.render.set_task(TASKS.SLEEP)
             print("ZZZZ")
 
 

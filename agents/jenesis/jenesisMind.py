@@ -6,10 +6,10 @@ from langchain.agents import Tool
 
 
 class jenesisMind:  # the mind of the agent is nothing more than a collection of different chains, aimed at simulating cognition
-    def __init__(self, soul, agent):
+    def __init__(self, soul, render):
         self.soul = soul
         self.memory = self.define_memory()
-        self.agent = agent
+        self.render = render
         self.action_space = open("data/constant/space.txt", "r").read()
         self.toolkit = self.define_toolkit()
 

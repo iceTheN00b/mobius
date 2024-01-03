@@ -8,9 +8,11 @@ from agents.kandii.kandiiEngine import kandiiEngine
 
 E = flask.Flask("mobius")
 
+print("sculpting jenesis..")
+jenesis = jenesisEngine()
+
 print("sculpting kandii..")
 kandii = kandiiEngine(False)
-jenesis = jenesisEngine()
 
 kandii.run()
 
