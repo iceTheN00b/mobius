@@ -4,6 +4,8 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.vectorstores import Chroma
 from langchain.agents import Tool
 
+from toolkit.bloggerToolkit import bloggerTools
+
 
 class jenesisMind:  # the mind of the agent is nothing more than a collection of different chains, aimed at simulating cognition
     def __init__(self, soul, render):
@@ -24,4 +26,15 @@ class jenesisMind:  # the mind of the agent is nothing more than a collection of
 
 
     def define_toolkit(self):
-        pass
+
+        x = bloggerTools()
+
+        tools = [
+            Tool(
+            name = "idea_module",
+            func = x.idea_module,
+            description="useful for coming up with an idea. There should be no input"
+            )
+        ]
+
+        return tools

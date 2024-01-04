@@ -1,10 +1,9 @@
 import os
 from enum import Enum
-from langchain.chains import SimpleSequentialChain, LLMChain, RetrievalQA, ConversationalRetrievalChain
-from langchain.prompts import PromptTemplate
 from langchain.tools import GoogleSearchResults
 from langchain.utilities import GoogleScholarAPIWrapper
 from langchain_community.tools.google_scholar import GoogleScholarQueryRun
+
 
 class testTools:
     def __init__(self, render):
@@ -18,13 +17,10 @@ class testTools:
         self.biblographer_chain = self.define_biblographer_chain()
         self.saver_tool = self.define_saver_tool()
 
-    def set_task(self, new_task):
-        self.render.set_task(new_task)
-
     def define_gather_sources_chain(self):
         self.render.set_task(TASKS.SEARCH)
         def resource_chain(input=""):
-            tool = GoogleScholarQueryRun(api_wrapper=GoogleScholarAPIWrapper(serp_api_key=os.environ["sardine"]))
+            tool = GoogleScholarQueryRun(api_wrapper=GoogleScholarAPIWrapper())
             harvest = tool.run(input)
             return harvest
         return resource_chain
@@ -82,9 +78,7 @@ class TASKS(Enum):
     READ = "read"
     REVIEW = "review"
     UPLOAD = "UPLOAD"
-    
-    
-    
+
 
 #for future purposes, it will be useful for having higher level chains. like having one single chain for generating plans, rather than 2 different ones for different types of plans
 #the question then is, is an attempt to control the output of agents at a low level worth it? Perhaps we should just skip it then? Well, that will be considered in a later version

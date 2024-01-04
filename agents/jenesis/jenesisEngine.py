@@ -34,3 +34,6 @@ class jenesisEngine:
             agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION,
             verbose=True
         )
+
+    def enginate(self):
+        self.agent.run()

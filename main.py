@@ -14,7 +14,7 @@ jenesis = jenesisEngine()
 print("sculpting kandii..")
 kandii = kandiiEngine(False)
 
-kandii.run()
+jenesis.enginate()
 
 @E.route("/kandii")
 

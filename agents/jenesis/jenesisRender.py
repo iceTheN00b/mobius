@@ -1,5 +1,7 @@
 import json
 
+#this class is neccessary in order to have the agent's behaviour be visualizable for any rendering application, a feature i think will become
+#more common place were llm based agents turned towards consumers
 class jenesisRender:
     def __init__(self):
 
