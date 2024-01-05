@@ -13,7 +13,7 @@ class jenesisMind:  # the mind of the agent is nothing more than a collection of
         self.memory = self.define_memory()
         self.render = render
         self.action_space = open("data/constant/space.txt", "r").read()
-        self.toolkit = self.define_toolkit()
+        self.modules = self.define_toolkit()
 
     def define_memory(self):
         loader = DirectoryLoader("data/memory/jenesisMemory", glob="*.txt", loader_cls=TextLoader)
@@ -27,14 +27,14 @@ class jenesisMind:  # the mind of the agent is nothing more than a collection of
 
     def define_toolkit(self):
 
-        x = bloggerTools()
+        x = bloggerTools(self.soul, self.memory, self.render)
 
-        tools = [
+        modules = [
             Tool(
-            name = "idea_module",
-            func = x.idea_module,
-            description="useful for coming up with an idea. There should be no input"
-            )
+                name = "idea_module",
+                func = x.idea_module,
+                description="useful for coming up with an idea. Input ought to be your goal."
+                )
         ]
 
-        return tools
+        return modules
