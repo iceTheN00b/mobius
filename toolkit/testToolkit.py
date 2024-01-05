@@ -3,7 +3,7 @@ from enum import Enum
 from langchain.tools import GoogleSearchResults
 from langchain.utilities import GoogleScholarAPIWrapper
 from langchain_community.tools.google_scholar import GoogleScholarQueryRun
-
+from toolkit.Tasks import TASKS
 
 class testTools:
     def __init__(self, render):
@@ -69,15 +69,7 @@ class testTools:
         return saver_tool
 
 
-class TASKS(Enum):
-    SLEEP = "sleep"
-    PLAN = "plan"
-    SEARCH = "search"
-    WRITE = "write"
-    THINK = "think"
-    READ = "read"
-    REVIEW = "review"
-    UPLOAD = "UPLOAD"
+
 
 
 #for future purposes, it will be useful for having higher level chains. like having one single chain for generating plans, rather than 2 different ones for different types of plans

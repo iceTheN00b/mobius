@@ -29,7 +29,7 @@ class jenesisRender:
         self.position = dat["position"]
         self.task = dat["task"]
 
-    def set_task(self, task):
+    def set_task(self, task = "IDLE"):
         self.task = task
 
     def run(self):

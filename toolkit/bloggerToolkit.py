@@ -3,6 +3,8 @@ from langchain.agents import Tool
 from langchain.chains import LLMChain, ConversationalRetrievalChain, RetrievalQA
 from langchain.utilities.google_serper import GoogleSerperAPIWrapper
 from langchain_core.prompts import PromptTemplate
+from toolkit.Tasks import TASKS
+
 
 #i would accomodate some changes to make this thing a bit more human readable
 class bloggerTools:
@@ -11,6 +13,7 @@ class bloggerTools:
         self.render = render
         self.soul = soul
         self.memory = memory
+
         self.idea_module = self.define_idea_module()
 
 
@@ -70,4 +73,10 @@ class bloggerTools:
 
         return idea_module
 
+        def define_research_module(input = ""):
 
+            prompt = PromptTemplate.from_template(template="""
+            
+            
+            
+            """)

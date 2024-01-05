@@ -29,7 +29,7 @@ class jenesisEngine:
 
     def setupAgent(self):
         return initialize_agent(
-            tools=[],
+            tools=self.mind.toolkit,
             llm = self.soul,
             agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION,
             verbose=True
