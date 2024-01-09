@@ -1,6 +1,6 @@
 from langchain.agents import initialize_agent, AgentType
 from langchain.agents import Tool
-from langchain.chains import LLMChain, ConversationalRetrievalChain, RetrievalQA
+from langchain.chains import LLMChain, RetrievalQA
 from langchain.utilities.google_serper import GoogleSerperAPIWrapper
 from langchain_core.prompts import PromptTemplate
 from toolkit.Tasks import TASKS
@@ -16,6 +16,7 @@ class bloggerArchitecture:
 
         self.idea_module = self.define_idea_module()
         self.research_module = self.define_research_module()
+        self.outline_module = self.define_outline_module()
 
 
     def define_idea_module(self):
@@ -25,8 +26,7 @@ class bloggerArchitecture:
         subtask = PromptTemplate.from_template(template="""
         0. Search for relevant information pertaining to the latest advances in tech.
         1. From this information, conclude what could be a compelling topic for a blogpost.
-        2. Ensure you have not executed a similar idea before. If so, conclude on a new idea.
-        
+        2. Ensure you have not executed a similar topic before. If so, conclude on a new topic.
         """)
 
         def search_(query =""):
@@ -37,7 +37,7 @@ class bloggerArchitecture:
             self.render.set_task()
             chain = RetrievalQA.from_llm(llm=self.soul, retriever=self.memory.as_retriever(search_kwargs={"k": 2}))
 
-            return chain({"query":f"Have you executed something similar to this: {idea}"})["result"]
+            return chain({"query":f"Have you written on this topic before? If so what was the name of the topic.: {idea}"})["result"]
 
         def compell_(info =""):
             self.render.set_task()
@@ -55,12 +55,12 @@ class bloggerArchitecture:
             Tool(
                 name = "recall_",
                 func = recall_,
-                description="to ensure an idea has not been executed before. Input should be the idea."
+                description="to ensure a topic has not been executed before. Input should be the compelling blogpost topic."
             ),
             Tool(
                 name = "compell_",
                 func = compell_,
-                description="to conclude on a compelling blogpost idea. Input should be information."
+                description="to conclude on a compelling blogpost topic. Input should be information."
             )
         ]
 
@@ -80,44 +80,43 @@ class bloggerArchitecture:
 
     def define_research_module(self):
 
-        self.notepad = "" #takes note of things the agent has learnt.
+        self.notepad : list = [] #takes note of things the agent has learnt.
 
         #TODO: implement conditional recursive searching ladies and gentlemen i.e make it such that the system continues to generate queries based until a satisfactory condition is met.
         #TODO: generally, i think iterative loops are neccessary
 
-        plan = PromptTemplate.from_template(template="""
+        subtask = PromptTemplate.from_template(template="""
         0. Generate 3 queries that can be used to investigate this idea: {idea}
-        1. For each of these queries:
-            -Search for information.
-            -Obtain the main facts and take notes of these.
+        1. For each of these queries, search for information and take notes of the main facts.
         """)
 
-        def querier_(idea = ""):
+        def querier_(topic =""):
             self.render.set_task()
             chain = LLMChain(llm = self.soul, prompt = PromptTemplate.from_template("generate 3 queries to investigate {idea}."))
-            return chain.run(idea)
+            return chain.run(topic)
 
-        def noter_(content = ""):
+        def noter_(query = ""):
             self.render.set_task()
-            self.notepad += content
-            return "!note has been sucessfuly taken"
+            result = GoogleSerperAPIWrapper().run(query)
+            self.notepad.append(result)
+            return f"!notes on {query} has been successfully taken"
 
         research_module_tools = [
 
             Tool(
                 name = "querier_",
                 func = querier_,
-                description= "Useful for when you need to investigate an idea by generating queries. Input ought to be the idea."
+                description= "Useful for when you need to investigate an idea by generating queries. Input ought to be the topic"
             ),
 
             Tool(
                 name = "noter_",
                 func = noter_,
-                description = "for when you need to take notes of main facts and points. Input ought to be the information"
+                description = "for when you need to research and then take notes of main facts and points. Input ought to query to search"
             )
         ]
 
-        def research_module(subtask =""):
+        def research_module(input =""):
             research_agent = initialize_agent(
                 tools= research_module_tools,
                 llm = self.soul,
@@ -125,11 +124,11 @@ class bloggerArchitecture:
                 verbose=True
             )
             result = research_agent.run(subtask)
+
             return result
 
 
         return research_module
 
-            #this is going to be able to research information and then collect notes ladies and gentlemen
-            #what i really want is recursive search, lucky what this module allows is for the agent to be easily extendable, so i will
-            #implement that later fam
+    def define_outline_module(self):
+        pass

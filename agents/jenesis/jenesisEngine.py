@@ -29,11 +29,11 @@ class jenesisEngine:
 
     def setupAgent(self):
         return initialize_agent(
-            tools=self.mind.toolkit,
+            tools=self.mind.modules,
             llm = self.soul,
             agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION,
             verbose=True
         )
 
     def enginate(self):
-        self.agent.run()
+        self.agent.run("write a blogpost")

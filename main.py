@@ -1,20 +1,21 @@
-from agents.jenesis.jenesisEngine import jenesisEngine
-
-print("handling imports..")
+print("..importing dependencies")
 import flask
 import json
 from agents.kandii.kandiiEngine import kandiiEngine
-
+from agents.jenesis.jenesisEngine import jenesisEngine
 
 E = flask.Flask("mobius")
 
-print("sculpting jenesis..")
+print("..sculpting jenesis")
 jenesis = jenesisEngine()
+
+print("!running jenesis")
+jenesis.enginate()
 
 print("sculpting kandii..")
 kandii = kandiiEngine(False)
 
-jenesis.enginate()
+
 
 @E.route("/kandii")
 

@@ -6,6 +6,7 @@ class TASKS(Enum):
     PLAN = "PLAN"
     SEARCH = "SEARCH"
     WRITE = "WRITE"
+    NOTE = "NOTE"
     THINK = "THINK"
     READ = "READ"
     REVIEW = "REVIEW"
